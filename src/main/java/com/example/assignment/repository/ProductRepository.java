@@ -27,16 +27,12 @@ public class ProductRepository {
 	private final String SEPARATOR = ",";
 	private final int EXPECTED = 5;
 
-	// this is my in memory DB
+	// this is my "in memory DB"
 	// we can also use H2 DB and then JPA and spring data to filter
 	private final List<Product> products;
 
 	public ProductRepository() {
 		products = populateProducts();
-	}
-
-	public List<Product> getAllProducts() {
-		return products;
 	}
 
 	public List<Product> search(ProductQueryParameters query) {
