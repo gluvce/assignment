@@ -1,18 +1,22 @@
-package com.example.assignment.model;
+package com.example.assignment.dto;
 
 import java.math.BigDecimal;
 
-public class Product {
+import com.example.assignment.model.ProductProperty;
+import com.example.assignment.model.ProductType;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class ProductDTO {
 
 	private ProductType type;
 	private ProductProperty properties;
 	private BigDecimal price;
 	private String storeAddress;
 
-	public Product() {
+	public ProductDTO() {
 	}
 
-	public Product(ProductType type, ProductProperty properties, BigDecimal price, String storeAddress) {
+	public ProductDTO(ProductType type, ProductProperty properties, BigDecimal price, String storeAddress) {
 		this.type = type;
 		this.properties = properties;
 		this.price = price;
@@ -43,6 +47,7 @@ public class Product {
 		this.price = price;
 	}
 
+	@JsonProperty("store_address")
 	public String getStoreAddress() {
 		return storeAddress;
 	}
