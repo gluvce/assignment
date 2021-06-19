@@ -3,6 +3,10 @@ package com.example.assignment.model;
 public class ProductGbLimitProperty extends ProductProperty {
 	private Integer limit;
 
+	public ProductGbLimitProperty() {
+		super();
+	}
+	
 	public ProductGbLimitProperty(Integer limit) {
 		super(PropertyType.gb_limit);
 		this.limit = limit;

@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.assignment.dto.DataDTO;
 import com.example.assignment.dto.ProductDTO;
 import com.example.assignment.model.Product;
+import com.example.assignment.model.ProductColorProperty;
+import com.example.assignment.model.ProductGbLimitProperty;
+import com.example.assignment.model.ProductProperty;
 import com.example.assignment.model.query.ProductQueryParameters;
 import com.example.assignment.repository.ProductRepository;
 
@@ -25,11 +28,20 @@ public class ProductController {
 		List<Product> products = productRepository.search(query);
 		List<ProductDTO> productsDto = new ArrayList<ProductDTO>();
 		products.forEach(p -> {
-			productsDto.add(new ProductDTO(p.getType(), p.getProperties(), p.getPrice(), p.getStoreAddress()));
+			productsDto.add(
+					new ProductDTO(p.getType(), getProperties(p.getProperties()), p.getPrice(), p.getStoreAddress()));
 		});
 		DataDTO result = new DataDTO();
 		result.setData(productsDto);
 		return result;
+	}
+
+	private String getProperties(ProductProperty properties) {
+		if (properties instanceof ProductColorProperty) {
+			return properties.getType() + ":" + ((ProductColorProperty) properties).getValue();
+		} else {
+			return properties.getType() + ":" + ((ProductGbLimitProperty) properties).getLimit();
+		}
 	}
 
 }

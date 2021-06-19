@@ -3,14 +3,15 @@ package com.example.assignment.repository;
 import static java.util.stream.Collectors.toList;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.example.assignment.model.Product;
@@ -31,8 +32,8 @@ public class ProductRepository {
 	// we can also use H2 DB and then JPA and spring data to filter
 	private final List<Product> products;
 
-	public ProductRepository() {
-		products = populateProducts();
+	public ProductRepository(@Value("${csv.file}") Resource file) {
+		products = populateProducts(file);
 	}
 
 	public List<Product> search(ProductQueryParameters query) {
@@ -69,14 +70,9 @@ public class ProductRepository {
 		return result.collect(toList());
 	}
 
-	private List<Product> populateProducts() {
+	private List<Product> populateProducts(Resource file) {
 		List<Product> products = new ArrayList<Product>();
-
-		String fileName = "data.csv";
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource(fileName).getFile());
-
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
 			String line;
 			int i = 0;
 			while ((line = br.readLine()) != null) {
@@ -134,31 +130,31 @@ public class ProductRepository {
 		}
 	}
 
-	public List<Product> searchOneLiner(ProductQueryParameters query) {
-//		Everything in one line (not very readable)
-		return products.stream()
-				.filter(p -> (query.getCity() != null ? p.getStoreAddress().contains(query.getCity()) : true)
-						&& (query.getType() != null ? p.getType() == query.getType() : true)
-						&& (query.getMinPrice() != null ? p.getPrice().compareTo(query.getMinPrice()) >= 0 : true)
-						&& (query.getMaxPrice() != null ? p.getPrice().compareTo(query.getMaxPrice()) <= 0 : true)
-						&& (query.getProperty() != null
-								? ((query.getProperty()
-										.getColor() != null
-												? p.getProperties().getType() == PropertyType.color
-														&& ((ProductColorProperty) p.getProperties()).getValue()
-																.equals(query.getProperty().getColor())
-												: true)
-										&& (query.getProperty().getGbLimitMin() != null
-												? p.getProperties().getType() == PropertyType.gb_limit
-														&& ((ProductGbLimitProperty) p.getProperties())
-																.getLimit() >= query.getProperty().getGbLimitMin()
-												: true)
-										&& (query.getProperty().getGbLimitMax() != null
-												? p.getProperties().getType() == PropertyType.gb_limit
-														&& ((ProductGbLimitProperty) p.getProperties())
-																.getLimit() <= query.getProperty().getGbLimitMax()
-												: true))
-								: true))
-				.collect(toList());
-	}
+//	public List<Product> searchOneLiner(ProductQueryParameters query) {
+////		Everything in one line (not very readable)
+//		return products.stream()
+//				.filter(p -> (query.getCity() != null ? p.getStoreAddress().contains(query.getCity()) : true)
+//						&& (query.getType() != null ? p.getType() == query.getType() : true)
+//						&& (query.getMinPrice() != null ? p.getPrice().compareTo(query.getMinPrice()) >= 0 : true)
+//						&& (query.getMaxPrice() != null ? p.getPrice().compareTo(query.getMaxPrice()) <= 0 : true)
+//						&& (query.getProperty() != null
+//								? ((query.getProperty()
+//										.getColor() != null
+//												? p.getProperties().getType() == PropertyType.color
+//														&& ((ProductColorProperty) p.getProperties()).getValue()
+//																.equals(query.getProperty().getColor())
+//												: true)
+//										&& (query.getProperty().getGbLimitMin() != null
+//												? p.getProperties().getType() == PropertyType.gb_limit
+//														&& ((ProductGbLimitProperty) p.getProperties())
+//																.getLimit() >= query.getProperty().getGbLimitMin()
+//												: true)
+//										&& (query.getProperty().getGbLimitMax() != null
+//												? p.getProperties().getType() == PropertyType.gb_limit
+//														&& ((ProductGbLimitProperty) p.getProperties())
+//																.getLimit() <= query.getProperty().getGbLimitMax()
+//												: true))
+//								: true))
+//				.collect(toList());
+//	}
 }

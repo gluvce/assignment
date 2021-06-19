@@ -9,14 +9,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ProductDTO {
 
 	private ProductType type;
-	private ProductProperty properties;
+	private String properties;
 	private BigDecimal price;
 	private String storeAddress;
 
 	public ProductDTO() {
 	}
 
-	public ProductDTO(ProductType type, ProductProperty properties, BigDecimal price, String storeAddress) {
+	public ProductDTO(ProductType type, String properties, BigDecimal price, String storeAddress) {
 		this.type = type;
 		this.properties = properties;
 		this.price = price;
@@ -31,11 +31,11 @@ public class ProductDTO {
 		this.type = type;
 	}
 
-	public ProductProperty getProperties() {
+	public String getProperties() {
 		return properties;
 	}
 
-	public void setProperties(ProductProperty properties) {
+	public void setProperties(String properties) {
 		this.properties = properties;
 	}
 
