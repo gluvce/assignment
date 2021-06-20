@@ -1,0 +1,12 @@
+Product type,Product properties,Price,Store address
+phone,color:grön,277.00,"Blake gränden, Karlskrona"
+subscription,gb_limit:50,415.00,"Odell gatan, Stockholm"
+subscription,gb_limit:10,202.00,"Fausto vägen, Karlskrona"
+phone,color:purpur,130.00,"Gustafsson gärdet, Karlskrona"
+phone,color:guld,271.00,"Nilsson allén, Stockholm"
+phone,color:guld,45.00,"Gustafsson gärdet, Malmö"
+subscription,gb_limit:50,178.00,"Karlsson allén, Karlskrona"
+phone,color:brun,380.00,"Svensson gatan, Stockholm"
+subscription,gb_limit:10,991.00,"Emma allén, Malmö"
+phone,color:brun,17.00,"Eriksson vägen, Karlskrona"
+phone,color:purpur,704.00,"Eriksson gatan, Malmö"
