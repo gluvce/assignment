@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.example.assignment.dto.DataDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -40,10 +40,14 @@ class AssignmentIntegrationTests {
 
 		String response = mvc.perform(MockMvcRequestBuilders.get("/product")).andReturn().getResponse()
 				.getContentAsString();
-		DataDTO dataDTO = objectMapper.readValue(response, DataDTO.class);
-
+		DataDTOTest dataDTO = objectMapper.readValue(response, DataDTOTest.class);
+		String expectedResponse = objectMapper.writeValueAsString(dataDTO);
+		
 		assertNotNull(dataDTO);
 		assertNotNull(dataDTO.getData());
 		assertNotEquals(dataDTO.getData().size(), 0);
+		
+		//check if model is changed
+		JSONAssert.assertEquals(response, expectedResponse, false);
 	}
 }
